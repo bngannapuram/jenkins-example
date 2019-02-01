@@ -12,8 +12,7 @@ node ('master') {
     }
 
     stage('Generate HTML report') {
-        cucumber buildStatus: "UNSTABLE",
-                fileIncludePattern: '**/cucumber.json',
+        cucumber fileIncludePattern: '**/cucumber.json',
                 sortingMethod: 'ALPHABETICAL',
                 jsonReportDirectory: 'target'
     }
