@@ -1,33 +1,23 @@
-pipeline {
-    agent any
-
+node ('master') {
     stages {
         stage ('Compile Stage') {
-
-            steps {
-                withMaven(maven : 'maven_3_5_0') {
-                    sh 'mvn clean install'
-                }
-            }
+            bat 'mvn clean install'
         }
 
         stage ('Testing Stage') {
-
-            steps {
-                withMaven(maven : 'maven_3_5_0') {
-                    sh 'mvn test'
-                }
-            }
+            bat 'mvn test'
         }
 
         stage('Generate HTML report') {
-            steps {
-                cucumber buildStatus: "UNSTABLE",
-                        fileIncludePattern: '**/cucumber.json',
-                        sortingMethod: 'ALPHABETICAL',
-                        jsonReportDirectory: 'target'
-            }
-
+            cucumber buildStatus: "UNSTABLE",
+                    fileIncludePattern: '**/cucumber.json',
+                    sortingMethod: 'ALPHABETICAL',
+                    jsonReportDirectory: 'target'
+        }
+        stage('Email'){
+            emailext body: '''Build Execution Completed, Checkout + Test + Reporting''', 
+                            subject: 'Build Execution Completed', 
+                            to: 'gbn.bb10@gmail.com'
         }
     }
 }
