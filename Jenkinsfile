@@ -9,15 +9,10 @@ pipeline {
             bat 'mvn test'
         }
 
-        stage('Generate HTML report') {
-            cucumber fileIncludePattern: '**/cucumber.json',
-                    sortingMethod: 'ALPHABETICAL',
+        stage('Cucumber report') {
+            cucumber buildStatus: "UNSTABLE", 
+                    fileIncludePattern: '**/cucumber.json',
                     jsonReportDirectory: 'target'
-        }
-        stage('Email'){
-            emailext body: '''Build Execution Completed, Checkout + Test + Reporting''', 
-                            subject: 'Build Execution Completed', 
-                            to: 'gbn.bb10@gmail.com'
         }
     }
 }
