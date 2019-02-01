@@ -1,4 +1,8 @@
 node ('master') {
+    stage('Checkout'){
+        git 'https://github.com/bngannapuram/jenkins-pipeline-maven.git'
+    }
+
     stage ('Compile Stage') {
         bat 'mvn clean install'
     }
