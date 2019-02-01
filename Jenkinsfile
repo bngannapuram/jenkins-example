@@ -1,32 +1,17 @@
-pipeline {
-    agent any
+node ('master') {
+    stage('Checkout'){
+        git 'https://github.com/bngannapuram/jenkins-pipeline-maven.git'
+    }
 
-    stages {
-        stage ('Compile Stage') {
+    stage ('Compile Stage') {
+        bat 'mvn clean compile'
+    }
 
-            steps {
-                withMaven(maven : 'maven_3_5_0') {
-                    sh 'mvn clean compile'
-                }
-            }
-        }
+    stage ('Testing Stage') {
+        bat 'mvn test'
+    }
 
-        stage ('Testing Stage') {
-
-            steps {
-                withMaven(maven : 'maven_3_5_0') {
-                    sh 'mvn test'
-                }
-            }
-        }
-
-
-        stage ('Deployment Stage') {
-            steps {
-                withMaven(maven : 'maven_3_5_0') {
-                    sh 'mvn deploy'
-                }
-            }
-        }
+    stage ('Deployment Stage') {
+        bat 'mvn deploy'
     }
 }
