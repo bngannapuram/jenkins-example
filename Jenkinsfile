@@ -2,12 +2,6 @@ pipeline {
     agent any
 
     stages {
-        stage ('Checkout') {
-            steps {
-                git 'https://github.com/bngannapuram/jenkins-pipeline-maven.git'
-            }
-        }
-
         stage ('Compile') {
             steps {
                 withMaven(maven : 'maven_3_6_0') {
